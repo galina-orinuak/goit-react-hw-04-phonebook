@@ -3,6 +3,7 @@ import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 
+
 export class App extends Component {
   state = {
     contacts: [
