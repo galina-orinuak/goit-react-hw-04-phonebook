@@ -1,37 +1,45 @@
-import { Component } from 'react';
+import { useState} from 'react';
 import { nanoid } from 'nanoid';
 import styles from './ContactForm.module.css'
 
-export class ContactForm extends Component {
-  state = {name: '', number: '',};
+export const ContactForm=({addNewContact})=> {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = evt => {
-    evt.preventDefault();
-    this.props.addNewContact(this.state.name, this.state.number, nanoid())
-this.reset()
+const handleChange = evt => {
+  switch (evt.target.name) {
+    case 'name':
+      setName(evt.target.value);
+      break;
+    case 'number':
+      setNumber(evt.target.value);
+      break;
+    default:
+      return;
   }
+};
 
-  reset = () => {
+const handleSubmit = evt => {
+evt.preventDefault();
+addNewContact(name, number, nanoid());
+resetForm();
+};
+
+const resetForm = () => {
     this.setState();
   };
-
-  render() {
+ 
     return (
       <div>
         <h2>Phone Book</h2>
-        <form className={styles.contactForm} autoComplete="off" onSubmit={this.handleSubmit}>
+        <form className={styles.contactForm} autoComplete="off" onSubmit={handleSubmit}>
           <label className={styles.formLabel} > Name <input className={styles.formInput}
             type="text"
             name="name"
             required
             placeholder="enter name"
-            value={this.state.name}
-            onChange={this.handleChange}
+            value={name}
+            onChange={handleChange}
           />
           </label>
          <label  className={styles.formLabel}  >Number <input className={styles.formInput}
@@ -40,12 +48,11 @@ this.reset()
             required
             length="7"
            placeholder="enter phone"
-            value={this.state.number}
-            onChange={this.handleChange}
+            value={number}
+            onChange={handleChange}
           /></label>
           <button className={styles.submitBtn}  type="submin">Add Contact</button>
         </form>
       </div>
     );
   }
-}
